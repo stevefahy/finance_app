@@ -1,0 +1,8 @@
+.error_outer {
+  z-index: 1;
+  position: relative;
+  white-space: pre-wrap;
+  text-align: center;
+  color: #ed4956;
+  padding-bottom: 10px;
+}

@@ -1,0 +1,115 @@
+<div class="route_container">
+  <div class="web_container overlay">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ this.mode | titlecase }} Tax</mat-card-title>
+      </mat-card-header>
+      <form
+        [formGroup]="taxForm"
+        (ngSubmit)="onSaveTax()"
+        enctype="multipart/form-data"
+      >
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            formControlName="tax_type"
+            placeholder="Tax Type"
+            required
+          />
+          <mat-error *ngIf="taxForm.get('tax_type').invalid"
+            >Please enter a tax type.</mat-error
+          >
+        </mat-form-field>
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              formControlName="rate"
+              placeholder="Rate"
+              required
+            />
+            <mat-error *ngIf="taxForm.get('rate').invalid"
+              >Please enter a rate.</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              formControlName="credit"
+              placeholder="Credit"
+              required
+            />
+            <mat-error *ngIf="taxForm.get('credit').invalid"
+              >Please enter a tax credit.</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [formGroup]="taxForm" [rangePicker]="picker">
+              <input
+                matStartDate
+                formControlName="date_start"
+                placeholder="Start date"
+              />
+              <input
+                matEndDate
+                formControlName="date_end"
+                placeholder="End date"
+              />
+            </mat-date-range-input>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+            <mat-error
+              *ngIf="
+                taxForm.controls.date_start.hasError('matStartDateInvalid')
+              "
+              >Invalid start date</mat-error
+            >
+            <mat-error
+              *ngIf="taxForm.controls.date_end.hasError('matEndDateInvalid')"
+              >Invalid end date</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <ul>
+          <li>
+            <button
+              mat-raised-button
+              color="edit"
+              type="submit"
+              [disabled]="!taxForm.valid"
+            >
+              {{ this.mode | titlecase }} Tax
+            </button>
+          </li>
+          <li>
+            <button
+              *ngIf="mode != 'create'"
+              mat-raised-button
+              color="warn"
+              type="button"
+              (click)="deleteTax(this.taxId)"
+            >
+              Delete
+            </button>
+          </li>
+          <li>
+            <a mat-raised-button color="basic" routerLink="/" routerLinkActive="mat-basic"
+              >Cancel</a
+            >
+          </li>
+        </ul>
+      </form>
+    </mat-card>
+  </div>
+</div>

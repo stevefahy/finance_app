@@ -1,0 +1,237 @@
+<div class="route_container">
+  <div class="web_container overlay">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ this.mode | titlecase }} Stock</mat-card-title>
+      </mat-card-header>
+      <form
+        [formGroup]="stockForm"
+        (ngSubmit)="onSaveStock()"
+        enctype="multipart/form-data"
+      >
+        <mat-form-field [style.width.px]="270">
+          <input
+            matInput
+            type="text"
+            formControlName="ticker"
+            placeholder="Ticker"
+            required
+          />
+          <mat-error *ngIf="stockForm.get('ticker').errors?.minlength"
+            >Please enter a ticker.</mat-error
+          >
+          <mat-error *ngIf="stockForm.get('ticker').errors?.invalidStock"
+            >Please enter a valid stock symbol.</mat-error
+          >
+          <mat-hint *ngIf="stockForm.get('ticker')?.pending"
+            >Validating...</mat-hint
+          >
+        </mat-form-field>
+        <div class="group">
+          <div>
+            <mat-form-field [style.width.px]="120">
+              <input
+                matInput
+                type="number"
+                formControlName="price"
+                placeholder="Price"
+                required
+              />
+              <mat-error *ngIf="stockForm.get('price').invalid"
+                >Please enter a price.</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="{{ getClass() }}" [hidden]="hide_closed">
+            <mat-form-field [style.width.px]="120">
+              <input
+                matInput
+                type="number"
+                formControlName="price_close"
+                placeholder="Close Price"
+                required
+              />
+              <mat-error *ngIf="stockForm.get('price_close').invalid"
+                >Please enter a close price.</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="group">
+          <div>
+            <mat-form-field [style.width.px]="120">
+              <input
+                matInput
+                type="number"
+                formControlName="amount"
+                placeholder="Amount"
+                required
+              />
+              <mat-error *ngIf="stockForm.get('amount').invalid"
+                >Please enter an amount.</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field [style.width.px]="120">
+              <input
+                matInput
+                type="number"
+                formControlName="fee"
+                placeholder="Fee"
+                required
+              />
+              <mat-error *ngIf="stockForm.get('fee').invalid"
+                >Please enter a Fee.</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Currency</mat-label>
+            <mat-select [(value)]="selected" formControlName="currency">
+              <mat-option
+                *ngFor="let currency of currencies"
+                [value]="currency.value"
+              >
+                {{ currency.viewValue }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="stockForm.get('currency').invalid"
+              >Please select a currency.</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div class="group">
+          <div>
+            <mat-form-field [style.width.px]="120">
+              <input
+                matInput
+                type="number"
+                formControlName="forex"
+                placeholder="FX"
+                required
+              />
+              <mat-error *ngIf="stockForm.get('forex').invalid"
+                >Please enter a FX.</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="{{ getClass() }}" [hidden]="hide_closed">
+            <mat-form-field [style.width.px]="120">
+              <input
+                matInput
+                type="number"
+                formControlName="forex_close"
+                placeholder="Close FX"
+                required
+              />
+              <mat-error *ngIf="stockForm.get('forex_close').invalid"
+                >Please enter a Close FX.</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              formControlName="dividend_yield"
+              placeholder="Dividend Yield"
+              required
+            />
+            <mat-error *ngIf="stockForm.get('dividend_yield').invalid"
+              >Please enter a Dividend Yield.</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Status</mat-label>
+            <mat-select [(value)]="selected_status" formControlName="status">
+              <mat-option
+                *ngFor="let status of statuses"
+                [value]="status.value"
+              >
+                {{ status.viewValue }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="stockForm.get('status').invalid"
+              >Please select a status.</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input
+              [formGroup]="stockForm"
+              [rangePicker]="picker"
+            >
+              <input
+                matStartDate
+                formControlName="date_start"
+                placeholder="Start date"
+              />
+              <input
+                matEndDate
+                formControlName="date_end"
+                placeholder="End date"
+              />
+            </mat-date-range-input>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+            <mat-error
+              *ngIf="
+                stockForm.controls.date_start.hasError('matStartDateInvalid')
+              "
+              >Invalid start date</mat-error
+            >
+            <mat-error
+              *ngIf="stockForm.controls.date_end.hasError('matEndDateInvalid')"
+              >Invalid end date</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <ul>
+          <li>
+            <button
+              mat-raised-button
+              color="edit"
+              type="submit"
+              [disabled]="!stockForm.valid"
+            >
+              {{ this.mode | titlecase }} Stock
+            </button>
+          </li>
+          <li>
+            <button
+              *ngIf="mode != 'create'"
+              mat-raised-button
+              color="warn"
+              type="button"
+              (click)="deleteStock(this.stockId)"
+            >
+              Delete
+            </button>
+          </li>
+          <li>
+            <button
+              mat-raised-button
+              color="basic"
+              type="button"
+              (click)="cancel()"
+            >
+              Cancel
+            </button>
+          </li>
+        </ul>
+      </form>
+    </mat-card>
+  </div>
+</div>

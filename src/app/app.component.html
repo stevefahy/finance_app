@@ -1,0 +1,10 @@
+<div *ngIf="isLoading" [@fadeLoader] class="loading_background">
+  <div class="loading_inner">
+    <mat-spinner class="main_spinner"></mat-spinner>
+  </div>
+</div>
+<main class="route_container" [ngClass]="{ disable_scroll: isLoading }">
+  <div [@routeAnimations]="prepareRoute(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
+  </div>
+</main>

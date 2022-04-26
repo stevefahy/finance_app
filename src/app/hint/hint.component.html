@@ -1,0 +1,12 @@
+<div class="hint_box_outer" *ngIf="show">
+  <div class="hint_box">
+    <div class="hint_outer">
+      <div>{{ hint?.message }}</div>
+    </div>
+    <img
+      class="hint_arrow"
+      *ngIf="hint?.icon"
+      src="{{ '../../assets/' + hint?.icon }}"
+    />
+  </div>
+</div>

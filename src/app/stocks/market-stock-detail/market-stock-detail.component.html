@@ -1,0 +1,36 @@
+<div class="t_table header_light">
+  <div class="t_row three">
+    <div class="t_col column_header">{{ item.symbol | uppercase }}</div>
+    <div class="t_col"></div>
+    <div
+      class="t_col"
+      [ngClass]="
+        getchangeStyle(item.regularMarketPrice, item.regularMarketPreviousClose)
+      "
+    >
+      {{ getCurrencySymbol(item.currency)
+      }}{{ item.regularMarketPrice | number: "1.2-2" }}
+    </div>
+  </div>
+  <div class="t_row three">
+    <div class="t_col">+/-</div>
+    <div
+      class="t_col"
+      class="t_col"
+      [ngClass]="
+        getchangeStyle(item.regularMarketPrice, item.regularMarketPreviousClose)
+      "
+    >
+      {{ item.regularMarketChangePercent | number: "1.2-2" }}%
+    </div>
+    <div
+      class="t_col"
+      [ngClass]="
+        getchangeStyle(item.regularMarketPrice, item.regularMarketPreviousClose)
+      "
+    >
+      {{ getCurrencySymbol(item.currency)
+      }}{{ item.regularMarketChange | number: "1.2-2" }}
+    </div>
+  </div>
+</div>

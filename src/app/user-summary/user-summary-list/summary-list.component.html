@@ -1,0 +1,361 @@
+<div class="component_section">
+  <h2><span class="badge bg-secondary">TOTALS</span></h2>
+</div>
+<div
+  *ngIf="
+    user_stock_number > 0 || user_account_number > 0;
+    then expando;
+    else no_expando
+  "
+></div>
+
+<ng-template #expando>
+  <div
+    class="nohrefstyle buttonstyle"
+    (click)="toggleExpand()"
+    aria-expanded="false"
+    aria-controls="collapseExample"
+  >
+    <ng-container *ngTemplateOutlet="no_expando"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #no_expando>
+  <div class="data_container">
+    <h2><span class="badge bg-secondary lighter">All Totals</span></h2>
+    <div class="t_table">
+      <div class="t_row three">
+        <div class="t_col">Orig/Current:</div>
+        <div class="t_col">
+          &nbsp;€{{ all_all_value_euro_original | number: "1.2-2" }}
+        </div>
+        <div
+          class="t_col"
+          [ngClass]="
+            getchangeStyle(
+              all_all_value_euro_current,
+              all_all_value_euro_original
+            )
+          "
+        >
+          €{{ all_all_value_euro_current | number: "1.2-2" }}
+        </div>
+      </div>
+      <div class="t_row three">
+        <div class="t_col">Total Change:</div>
+        <div
+          class="t_col"
+          [ngClass]="getchangeStyle(all_all_value_euro_change, 0)"
+        >
+          €{{ all_all_value_euro_change | number: "1.2-2" }}
+        </div>
+        <div
+          class="t_col"
+          [ngClass]="getchangeStyle(all_all_value_euro_change, 0)"
+        >
+          {{ all_all_value_euro_change_percent | number: "1.2-2" }}%
+        </div>
+      </div>
+      <div class="t_row three">
+        <div class="t_col">Tax/Post Tax:</div>
+        <div class="t_col">€{{ all_all_tax_due | number: "1.2-2" }}</div>
+        <div
+          class="t_col"
+          [ngClass]="getchangeStyle(all_all_value_euro_current_post_tax, 0)"
+        >
+          €{{ all_all_value_euro_current_post_tax | number: "1.2-2" }}
+        </div>
+      </div>
+      <div class="t_row three">
+        <div class="t_col">Post Tax Change?:</div>
+        <div
+          class="t_col"
+          [ngClass]="getchangeStyle(all_all_value_euro_change_post_tax, 0)"
+        >
+          €{{ all_all_value_euro_change_post_tax | number: "1.2-2" }}
+        </div>
+        <div
+          class="t_col"
+          [ngClass]="
+            getchangeStyle(all_all_value_euro_change_post_tax_percent, 0)
+          "
+        >
+          {{ all_all_value_euro_change_post_tax_percent | number: "1.2-2" }}%
+        </div>
+      </div>
+      <div
+        *ngIf="user_stock_number === 0 && user_account_number === 0"
+        class="spacer"
+      ></div>
+    </div>
+
+    <div *ngIf="user_stock_number > 0">
+      <h2>
+        <span class="badge bg-secondary lighter">Open Stock Totals</span>
+      </h2>
+      <div class="t_table">
+        <div class="t_row three">
+          <div class="t_col">Orig/Current:</div>
+          <div class="t_col">
+            &nbsp;€{{ stocks_open_value_euro_original | number: "1.2-2" }}
+          </div>
+          <div
+            class="t_col"
+            [ngClass]="
+              getchangeStyle(
+                stocks_open_value_euro_current,
+                stocks_open_value_euro_original
+              )
+            "
+          >
+            €{{ stocks_open_value_euro_current | number: "1.2-2" }}
+          </div>
+        </div>
+        <div class="t_row three">
+          <div class="t_col">Total Change:</div>
+          <div
+            class="t_col"
+            [ngClass]="getchangeStyle(stocks_open_value_euro_change, 0)"
+          >
+            €{{ stocks_open_value_euro_change | number: "1.2-2" }}
+          </div>
+          <div
+            class="t_col"
+            [ngClass]="getchangeStyle(stocks_open_value_euro_change_percent, 0)"
+          >
+            {{ stocks_open_value_euro_change_percent | number: "1.2-2" }}%
+          </div>
+        </div>
+        <div class="t_row three">
+          <div class="t_col">Tax/Post Tax:</div>
+          <div class="t_col">€{{ stocks_open_tax_due | number: "1.2-2" }}</div>
+          <div
+            class="t_col"
+            [ngClass]="
+              getchangeStyle(stocks_open_value_euro_current_post_tax, 0)
+            "
+          >
+            €{{ stocks_open_value_euro_current_post_tax | number: "1.2-2" }}
+          </div>
+        </div>
+        <div class="t_row three">
+          <div class="t_col">Post Tax Change:</div>
+          <div
+            class="t_col"
+            [ngClass]="
+              getchangeStyle(stocks_open_value_euro_change_post_tax, 0)
+            "
+          >
+            €{{ stocks_open_value_euro_change_post_tax | number: "1.2-2" }}
+          </div>
+          <div
+            class="t_col"
+            [ngClass]="
+              getchangeStyle(stocks_open_value_euro_change_post_tax_percent, 0)
+            "
+          >
+            {{
+              stocks_open_value_euro_change_post_tax_percent | number: "1.2-2"
+            }}%
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      #collapse="ngbCollapse"
+      id="collapseExample"
+      [(ngbCollapse)]="!panelOpenState"
+    >
+      <div *ngIf="user_stock_number > 0">
+        <h2>
+          <span class="badge bg-secondary lighter">Closed Stock Totals</span>
+        </h2>
+        <div class="t_table">
+          <div class="t_row three">
+            <div class="t_col">Orig/Current:</div>
+            <div class="t_col">
+              &nbsp;€{{ stocks_closed_value_euro_original | number: "1.2-2" }}
+            </div>
+            <div
+              class="t_col"
+              [ngClass]="
+                getchangeStyle(
+                  stocks_closed_value_euro_current,
+                  stocks_closed_value_euro_original
+                )
+              "
+            >
+              €{{ stocks_closed_value_euro_current | number: "1.2-2" }}
+            </div>
+          </div>
+          <div class="t_row three">
+            <div class="t_col">Total Change:</div>
+            <div
+              class="t_col"
+              [ngClass]="getchangeStyle(stocks_closed_value_euro_change, 0)"
+            >
+              €{{ stocks_closed_value_euro_change | number: "1.2-2" }}
+            </div>
+            <div
+              class="t_col"
+              [ngClass]="getchangeStyle(stocks_closed_value_euro_change, 0)"
+            >
+              {{ stocks_closed_value_euro_change_percent | number: "1.2-2" }}%
+            </div>
+          </div>
+          <div class="t_row three">
+            <div class="t_col">Tax/Post Tax:</div>
+            <div class="t_col">
+              €{{ stocks_closed_tax_due | number: "1.2-2" }}
+            </div>
+            <div
+              class="t_col"
+              [ngClass]="
+                getchangeStyle(stocks_closed_value_euro_current_post_tax, 0)
+              "
+            >
+              €{{ stocks_closed_value_euro_current_post_tax | number: "1.2-2" }}
+            </div>
+          </div>
+          <div class="t_row three">
+            <div class="t_col">Post Tax Change:</div>
+            <div
+              class="t_col"
+              [ngClass]="
+                getchangeStyle(stocks_closed_value_euro_change_post_tax, 0)
+              "
+            >
+              €{{ stocks_closed_value_euro_change_post_tax | number: "1.2-2" }}
+            </div>
+            <div
+              class="t_col"
+              [ngClass]="
+                getchangeStyle(
+                  stocks_closed_value_euro_change_post_tax_percent,
+                  0
+                )
+              "
+            >
+              {{
+                stocks_closed_value_euro_change_post_tax_percent
+                  | number: "1.2-2"
+              }}%
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="user_stock_number > 0">
+        <h2>
+          <span class="badge bg-secondary lighter">All Stock Totals</span>
+        </h2>
+        <div class="t_table">
+          <div class="t_row three">
+            <div class="t_col">Orig/Current:</div>
+            <div class="t_col">
+              &nbsp;€{{ stocks_all_value_euro_original | number: "1.2-2" }}
+            </div>
+            <div
+              class="t_col"
+              [ngClass]="
+                getchangeStyle(
+                  stocks_all_value_euro_current,
+                  stocks_all_value_euro_original
+                )
+              "
+            >
+              €{{ stocks_all_value_euro_current | number: "1.2-2" }}
+            </div>
+          </div>
+          <div class="t_row three">
+            <div class="t_col">Total Change:</div>
+            <div
+              class="t_col"
+              [ngClass]="getchangeStyle(stocks_all_value_euro_change, 0)"
+            >
+              €{{ stocks_all_value_euro_change | number: "1.2-2" }}
+            </div>
+            <div
+              class="t_col"
+              [ngClass]="getchangeStyle(stocks_all_value_euro_change, 0)"
+            >
+              {{ stocks_all_value_euro_change_percent | number: "1.2-2" }}%
+            </div>
+          </div>
+          <div class="t_row three">
+            <div class="t_col">Tax/Post Tax:</div>
+            <div class="t_col">€{{ stocks_all_tax_due | number: "1.2-2" }}</div>
+            <div
+              class="t_col"
+              [ngClass]="
+                getchangeStyle(stocks_all_value_euro_current_post_tax, 0)
+              "
+            >
+              €{{ stocks_all_value_euro_current_post_tax | number: "1.2-2" }}
+            </div>
+          </div>
+          <div class="t_row three">
+            <div class="t_col">Post Tax Change:</div>
+            <div
+              class="t_col"
+              [ngClass]="
+                getchangeStyle(stocks_all_value_euro_change_post_tax, 0)
+              "
+            >
+              €{{ stocks_all_value_euro_change_post_tax | number: "1.2-2" }}
+            </div>
+            <div
+              class="t_col"
+              [ngClass]="
+                getchangeStyle(stocks_all_value_euro_change_post_tax_percent, 0)
+              "
+            >
+              {{
+                stocks_all_value_euro_change_post_tax_percent | number: "1.2-2"
+              }}%
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="user_account_number > 0">
+        <h2>
+          <span class="badge bg-secondary lighter">Accounts Totals</span>
+        </h2>
+        <div class="t_table">
+          <div class="t_row three">
+            <div class="t_col">Total:</div>
+            <div class="t_col"></div>
+            <div class="t_col">
+              €{{ accounts_total_euro | number: "1.2-2" }}
+            </div>
+          </div>
+          <div *ngFor="let account of userAccounts" class="t_row three">
+            <div class="t_col">{{ account.name }}</div>
+            <div class="t_col">
+              {{ account.currency_symbol
+              }}{{ account.balance | number: "1.2-2" }}
+            </div>
+            <div class="t_col">
+              €{{ account.balance_euro | number: "1.2-2" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="user_stock_number > 0 || user_account_number > 0">
+      <div *ngIf="!panelOpenState; then closed; else open"></div>
+      <ng-template #closed>
+        <div class="expand">
+          <span class="material-icons expand_more md-dark"> expand_more </span>
+        </div>
+      </ng-template>
+      <ng-template #open>
+        <div class="expand">
+          <span class="material-icons expand_less md-dark"> expand_less </span>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,56 @@
+<div class="component_section">
+  <div class="title_button">
+    <h2>
+      <div class="badge bg-secondary">STOCKS MARKET</div>
+    </h2>
+  </div>
+</div>
+<div class="component_section">
+  <market-stock-detail
+    *ngFor="let item of marketStocks; trackBy: trackByFunction"
+    [item]="item"
+  ></market-stock-detail>
+</div>
+<div class="spacer"></div>
+<div class="component_section">
+  <div class="title_create_list">
+    <h2>
+      <div class="badge bg-secondary">STOCKS</div>
+    </h2>
+    <app-hint [hint_name]="'stocks'"></app-hint>
+    <button mat-mini-fab color="warn" type="button" (click)="create()">
+      <span class="material-icons-outlined mat-icon-center"> add </span>
+    </button>
+  </div>
+</div>
+<div *ngIf="userStocksByStatus('open').length > 0" class="component_section">
+  <h2>
+    <div class="badge bg-secondary lighter">STOCKS OPEN</div>
+  </h2>
+</div>
+<stock-detail
+  *ngFor="let item of userStocksByStatus('open'); trackBy: trackByFunction"
+  [item]="item"
+  [market]="getMarketStock(item.ticker)"
+></stock-detail>
+<div *ngIf="userStocksByStatus('closed').length > 0" class="component_section">
+  <h2>
+    <div class="badge bg-secondary lighter">STOCKS CLOSED</div>
+  </h2>
+</div>
+<stock-detail
+  *ngFor="let item of userStocksByStatus('closed'); trackBy: trackByFunction"
+  [item]="item"
+></stock-detail>
+<div
+  *ngIf="userStocksByStatus('archived').length > 0"
+  class="component_section"
+>
+  <h2>
+    <div class="badge bg-secondary lighter">STOCKS ARCHIVED</div>
+  </h2>
+</div>
+<stock-detail
+  *ngFor="let item of userStocksByStatus('archived'); trackBy: trackByFunction"
+  [item]="item"
+></stock-detail>

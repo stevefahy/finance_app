@@ -1,0 +1,16 @@
+.section_title {
+  font-weight: 600;
+}
+
+.title_button {
+  display: flex;
+  justify-content: space-between;
+}
+
+.two_col .t_row > .t_col {
+  width: 66%;
+}
+
+.two_col .t_row > .t_col ~ .t_col {
+  width: 34%;
+}

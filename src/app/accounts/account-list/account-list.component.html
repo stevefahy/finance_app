@@ -1,0 +1,37 @@
+<div class="component_section">
+  <div class="title_create_list">
+    <h2>
+      <div class="badge bg-secondary">ACCOUNTS</div>
+    </h2>
+    <app-hint [hint_name]="'accounts'"></app-hint>
+    <button mat-mini-fab color="warn" type="button" (click)="create()">
+      <span class="material-icons-outlined mat-icon-center"> add </span>
+    </button>
+  </div>
+  <div *ngFor="let item of accountData">
+    <div class="table_list">
+      <div class="t_table_simple">
+        <div class="t_row four_grow">
+          <div class="t_col column_header">{{ item.name }}</div>
+          <div class="t_col">{{ item.currency }}</div>
+          <div class="t_col">
+            {{ getCurrencySymbol(item.currency)
+            }}{{ item.balance | number: "1.2-2" }}
+          </div>
+          <div class="t_col">
+            <button
+              mat-mini-fab
+              color="edit"
+              type="button"
+              (click)="editAccount(item._id)"
+            >
+              <span class="material-icons-outlined mat-icon-center">
+                edit
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="web_container auth">
+  <mat-card>
+    <mat-toolbar color="primary" id="main_nav" class="auth">
+      <span class="logo"><img src="../../assets/dollar_sign_dark.png" /></span>
+      <span>
+        <div href="/" class="finance_title">Finance</div>
+      </span>
+      <span class="spacer"></span>
+    </mat-toolbar>
+    <form
+      (submit)="onSignup(signupForm)"
+      #signupForm="ngForm"
+      *ngIf="!isLoading"
+    >
+      <mat-form-field>
+        <input
+          matInput
+          name="email"
+          ngModel
+          type="email"
+          placeholder="E-Mail"
+          #emailInput="ngModel"
+          required
+          email
+        />
+        <mat-error *ngIf="emailInput.invalid"
+          >Please enter a valid email.</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          type="password"
+          name="password"
+          ngModel
+          matInput
+          placeholder="Password"
+          #passwordInput="ngModel"
+          required
+        />
+        <mat-error *ngIf="passwordInput.invalid"
+          >Please enter a valid password.</mat-error
+        >
+      </mat-form-field>
+      <div class="button_container">
+        <div class="button_left">
+          <button
+            mat-raised-button
+            color="accent"
+            type="submit"
+            *ngIf="!isLoading"
+          >
+            Signup
+          </button>
+        </div>
+        <div>
+          <a
+            mat-raised-button
+            routerLink="/auth/login"
+            routerLinkActive="mat-accent"
+            >Log In</a
+          >
+        </div>
+      </div>
+    </form>
+    <app-error></app-error>
+  </mat-card>
+</div>

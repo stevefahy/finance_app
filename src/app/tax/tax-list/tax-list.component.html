@@ -1,0 +1,35 @@
+<div class="component_section">
+  <div class="title_create_list">
+    <h2>
+      <div class="badge bg-secondary">TAX</div>
+    </h2>
+    <app-hint [hint_name]="'taxs'"></app-hint>
+    <button mat-mini-fab color="warn" type="button" (click)="create()">
+      <span class="material-icons-outlined mat-icon-center"> add </span>
+    </button>
+  </div>
+  <div *ngFor="let item of myTaxData">
+    <div class="table_list">
+      <div class="t_table_simple">
+        <div class="t_row four_grow">
+          <div class="t_col column_header">{{ item.tax_type }}</div>
+          <div class="t_col">{{ item.rate }}%</div>
+          <div class="t_col">€{{ item.credit | number: "1.2-2" }}</div>
+          <div class="t_col">
+            <button
+              mat-mini-fab
+              color="edit"
+              type="button"
+              (click)="editTax(item._id)"
+            >
+              <span class="material-icons-outlined mat-icon-center">
+                edit
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spacer_bottom"></div>

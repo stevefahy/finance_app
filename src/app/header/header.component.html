@@ -1,0 +1,17 @@
+<div class="header_component">
+  <div class="header_component_inner">
+    <mat-toolbar color="primary" id="main_nav">
+      <span><img src="../../assets/dollar_sign_dark.png" /></span>
+      <span>
+        <a href="/" class="finance_title">Finance</a>
+      </span>
+      <span class="spacer"></span>
+      <ul>
+        <li *ngIf="userIsAuthenticated">
+          <button mat-button (click)="onLogout()">Logout</button>
+        </li>
+      </ul>
+    </mat-toolbar>
+  </div>
+  <div class="header_shadow"></div>
+</div>

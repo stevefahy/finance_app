@@ -1,0 +1,31 @@
+<div class="component_section">
+  <div class="title_button">
+    <h2>
+      <div class="badge bg-secondary">FOREX</div>
+    </h2>
+  </div>
+  <div class="t_table">
+    <div *ngFor="let currency of marketCurrencies" class="t_row four">
+      <div class="t_col column_header">€/{{ currency.symbol }}</div>
+      <div
+        class="t_col"
+        [ngClass]="getchangeStyle(currency.rate, currency.last)"
+      >
+        {{ currency.symbol }}{{ currency.rate | number: "1.2-4" }}
+      </div>
+      <div
+        class="t_col"
+        [ngClass]="getchangeStyle(currency.rate, currency.last)"
+      >
+        €{{ currency.euro | number: "1.2-4" }}
+      </div>
+      <div
+        class="t_col"
+        [ngClass]="getchangeStyle(currency.rate, currency.last)"
+      >
+        {{ currency.rate - currency.last | number: "1.2-6" }}
+      </div>
+    </div>
+  </div>
+  <hr class="divider" />
+</div>

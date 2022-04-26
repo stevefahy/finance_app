@@ -1,0 +1,261 @@
+<div class="data_container">
+  <div
+    class="nohrefstyle buttonstyle"
+    (click)="toggleExpand()"
+    [attr.aria-expanded]="panelOpenState"
+    [attr.aria-controls]="'collapse_' + item._id"
+  >
+    <div class="t_table header">
+      <div class="t_row three">
+        <div class="t_col column_header">{{ item.ticker | uppercase }}</div>
+        <div class="t_col">
+          {{ getCurrencySymbol(item.currency)
+          }}{{ item.price | number: "1.2-2" }}
+        </div>
+        <div
+          *ngIf="item.status == 'open'"
+          class="t_col"
+          [ngClass]="
+            getchangeStyle(
+              market.regularMarketPrice,
+              market.regularMarketPreviousClose
+            )
+          "
+        >
+          {{ getCurrencySymbol(item.currency)
+          }}{{ market.regularMarketPrice | number: "1.2-2" }}
+        </div>
+        <div
+          *ngIf="item.status != 'open'"
+          class="t_col"
+          [ngClass]="getchangeStyle(item.price_close, item.price)"
+        >
+          {{ getCurrencySymbol(item.currency)
+          }}{{ item.price_close | number: "1.2-2" }}
+        </div>
+      </div>
+
+      <div class="t_row three" *ngIf="item.status == 'open'">
+        <div class="t_col">Today +/-</div>
+        <div
+          class="t_col"
+          class="t_col"
+          [ngClass]="
+            getchangeStyle(
+              market.regularMarketPrice,
+              market.regularMarketPreviousClose
+            )
+          "
+        >
+          {{ market.regularMarketChangePercent | number: "1.2-2" }}%
+        </div>
+        <div
+          class="t_col"
+          [ngClass]="
+            getchangeStyle(
+              market.regularMarketPrice,
+              market.regularMarketPreviousClose
+            )
+          "
+        >
+          {{ getCurrencySymbol(item.currency)
+          }}{{ market.regularMarketChange | number: "1.2-2" }}
+        </div>
+      </div>
+
+      <div class="t_row three" *ngIf="item.status != 'open'">
+        <div class="t_col">Bought/Sold +/-</div>
+        <div
+          class="t_col"
+          [ngClass]="getchangeStyle(item.price_close, item.price)"
+        >
+          {{ item.price_change_percent | number: "1.2-2" }}%
+        </div>
+        <div
+          class="t_col"
+          [ngClass]="getchangeStyle(item.price_close, item.price)"
+        >
+          {{ getCurrencySymbol(item.currency)
+          }}{{ item.price_change | number: "1.2-2" }}
+        </div>
+      </div>
+    </div>
+
+    <div class="t_table">
+      <div class="t_row three">
+        <div class="t_col">Orig/Current</div>
+        <div class="t_col">
+          €{{ item.value_euro_original | number: "1.2-2" }}
+        </div>
+        <div
+          class="t_col"
+          [ngClass]="
+            getchangeStyle(item.value_euro_current, item.value_euro_original)
+          "
+        >
+          €{{ item.value_euro_current | number: "1.2-2" }}
+        </div>
+      </div>
+    </div>
+    <div class="t_table">
+      <div class="t_row three">
+        <div class="t_col">+/-</div>
+
+        <div
+          class="t_col"
+          [ngClass]="
+            getchangeStyle(item.value_euro_current, item.value_euro_original)
+          "
+        >
+          {{ item.value_euro_change_percent | number: "1.2-2" }}%
+        </div>
+        <div
+          class="t_col"
+          [ngClass]="
+            getchangeStyle(item.value_euro_current, item.value_euro_original)
+          "
+        >
+          €{{ item.value_euro_change | number: "1.2-2" }}
+        </div>
+      </div>
+    </div>
+    <div
+      #collapse="ngbCollapse"
+      id="collapse_{{ item._id }}"
+      [(ngbCollapse)]="!panelOpenState"
+    >
+      <!-- Tax -->
+      <div class="t_table subheader">
+        <div class="t_row three">
+          <div class="t_col">Tax/Fee</div>
+          <div class="t_col">€{{ item.tax_due | number: "1.2-2" }}</div>
+          <div class="t_col">€{{ item.fee | number: "1.2-2" }}</div>
+        </div>
+      </div>
+      <!-- After  Tax & Fees -->
+      <div class="t_table">
+        <div class="t_row three">
+          <div class="t_col">After Tax & Fee</div>
+          <div
+            class="t_col"
+            [ngClass]="
+              getchangeStyle(
+                item.value_euro_current_post_tax,
+                item.value_euro_original
+              )
+            "
+          >
+            {{ getCurrencySymbol(item.currency)
+            }}{{ item.value_euro_current_post_tax | number: "1.2-2" }}
+          </div>
+        </div>
+      </div>
+      <!-- Post  Tax & Fees -->
+      <div class="t_table">
+        <div class="t_row three">
+          <div class="t_col">+/-</div>
+          <div
+            class="t_col"
+            [ngClass]="
+              getchangeStyle(item.value_euro_change_post_tax_percent, 0)
+            "
+          >
+            {{ item.value_euro_change_post_tax_percent | number: "1.2-2" }}%
+          </div>
+          <div
+            class="t_col"
+            [ngClass]="getchangeStyle(item.value_euro_change_post_tax, 0)"
+          >
+            €{{ item.value_euro_change_post_tax | number: "1.2-2" }}
+          </div>
+        </div>
+      </div>
+      <!-- FX -->
+      <div class="t_table subheader">
+        <div class="t_row three">
+          <div class="t_col">FX Orig/Curr</div>
+          <div>
+            {{ item.forex | number: "1.2-2" }}
+          </div>
+          <div
+            class="t_col"
+            [ngClass]="
+              getchangeStyle(1 / item.currency_rate_current, item.forex)
+            "
+          >
+            {{ 1 / item.currency_rate_current | number: "1.2-2" }}
+          </div>
+        </div>
+      </div>
+      <!-- FX -->
+      <div class="t_table">
+        <div class="t_row three">
+          <div class="t_col">FX Orig/Curr</div>
+          <div>€{{ item.price_original_euro | number: "1.2-2" }}</div>
+          <div
+            class="t_col"
+            [ngClass]="
+              getchangeStyle(item.price_current_euro, item.price_original_euro)
+            "
+          >
+            €{{ item.price_current_euro | number: "1.2-2" }}
+          </div>
+        </div>
+      </div>
+      <!-- FX Change -->
+      <div class="t_table">
+        <div class="t_row three">
+          <div class="t_col">+/-</div>
+          <div
+            class="t_col"
+            [ngClass]="getchangeStyle(item.fx_change_percent, 0)"
+          >
+            {{ item.fx_change_percent | number: "1.2-2" }}%
+          </div>
+          <div class="t_col" [ngClass]="getchangeStyle(item.fx_change, 0)">
+            €{{ item.fx_change | number: "1.2-2" }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngTemplateOutlet="expando"></ng-container>
+
+  <ng-template #edit_button>
+    <div class="edit_button">
+      <button
+        mat-mini-fab
+        color="edit"
+        type="button"
+        (click)="editStock(item._id)"
+      >
+        <span class="material-icons-outlined mat-icon-center"> edit </span>
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #expando>
+    <div *ngIf="panelOpenState; then edit_button"></div>
+    <div
+      class="nohrefstyle buttonstyle"
+      (click)="toggleExpand()"
+      [attr.aria-expanded]="panelOpenState"
+      [attr.aria-controls]="'collapse_' + item._id"
+    >
+      <div *ngIf="panelOpenState; then open_expando; else closed_expando"></div>
+    </div>
+  </ng-template>
+
+  <ng-template #closed_expando>
+    <div class="expand">
+      <span class="material-icons expand_more md-dark"> expand_more </span>
+    </div>
+  </ng-template>
+
+  <ng-template #open_expando>
+    <div class="expand">
+      <span class="material-icons expand_less md-dark"> expand_less </span>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,35 @@
+:host {
+  position: relative;
+  height: auto;
+  right: 10px;
+  margin-left: auto;
+}
+
+.hint_outer {
+  width: 100%;
+  text-align: right;
+  font-style: italic;
+  font-weight: 500;
+  color: #006600;
+}
+
+.hint_box {
+  display: flex;
+  background-color: white;
+  width: 100%;
+  height: auto;
+  border-radius: 25px;
+  box-shadow: 3px 3px 4px #000;
+  align-content: flex-start;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 10px;
+}
+
+img.hint_arrow {
+  width: 35px;
+  left: 5px;
+  position: relative;
+}
